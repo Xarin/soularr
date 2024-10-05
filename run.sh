@@ -1,5 +1,21 @@
 #!/bin/bash
-cd /path/to/soularr/python/script
+cd /app/soularr
+
+if [[ -n "${LIDARR_API_KEY}" ]]; then
+  sed -i "s|yourlidarrapikeygoeshere|${LIDARR_API_KEY}|g" config.ini
+fi
+
+if [[ -n "${LIDARR_URL}" ]]; then
+  sed -i "s|http://localhost:8686|${LIDARR_URL}|g" config.ini
+fi
+
+if [[ -n "${SLSKD_API_KEY}" ]]; then
+  sed -i "s|yourslskdapikeygoeshere|${SLSKD_API_KEY}|g" config.ini
+fi
+
+if [[ -n "${SLSKD_URL}" ]]; then
+  sed -i "s|http://localhost:5030|${SLSKD_URL}|g" config.ini
+fi
 
 dt=$(date '+%d/%m/%Y %H:%M:%S');
 echo "Starting Soularr! $dt"
@@ -9,6 +25,3 @@ if ps aux | grep "[s]oularr.py" > /dev/null; then
 else
     python soularr.py
 fi
-
-# This script is just an example. Will need to be modified to fit your needs.
-# I have a cronjob that runs a script very similar to this every 5 minutes on my unraid server.
